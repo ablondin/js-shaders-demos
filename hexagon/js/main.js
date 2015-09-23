@@ -88,7 +88,7 @@ function update() {
     var elapsed = game.time.elapsed / 1000; // Temps écoulé en secondes
     var angularSpeed = Math.PI;             // Vitesse angulaire en radian/seconde
     var direction = (game.time.time / 1000) % 10 < 5 ? 1 : -1;
-    if ((game.time.time - colorChangeTime) / 1000 > 5) {
+    if ((game.time.time - colorChangeTime) / 1000 > 3) {
         scene.color = colors[Math.floor(Math.random() * colors.length)]
         colorChangeTime = game.time.time;
     }
