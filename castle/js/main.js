@@ -35,7 +35,7 @@ function initializeScene(){
 
     // Chargement du château
     var loader = new THREE.ObjectLoader();
-    loader.load('/assets/castle.json', function(object) {
+    loader.load('assets/castle.json', function(object) {
         scene.add(object);
     });
 } 
