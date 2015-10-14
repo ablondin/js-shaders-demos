@@ -37,6 +37,18 @@ function initializeScene(){
     var loader = new THREE.ObjectLoader();
     loader.load('/assets/castle.json', function(object) {
         scene.add(object);
+        object.traverse(function(child) {
+            if (child instanceof THREE.Mesh) {
+                var color;
+                if (child.name === "Plane") {
+                    color = 0x004000;
+                } else {
+                    color = 0x606060;
+                }
+                child.material = new THREE.MeshLambertMaterial({color: color});
+                console.log(child.material);
+            }
+        });
     });
 } 
 
