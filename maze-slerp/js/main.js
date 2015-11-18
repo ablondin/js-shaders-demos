@@ -58,13 +58,13 @@ function initializeScene(){
 
 // Keyboard interaction
 document.onkeydown = function(e) {
-    console.log(camera.position);
+    console.log(camera.quaternion);
     switch (e.keyCode) {
         case 37: // Left arrow
-            camera.rotation.y += 0.1;
+            tweenYRotation(0.3);
             break;
         case 39: // Right arrow
-            camera.rotation.y -= 0.1;
+            tweenYRotation(-0.3);
             break;
         case 38: // Up arrow
             camera.translateZ(-0.5);
@@ -81,8 +81,26 @@ document.onkeydown = function(e) {
     }
 };
 
+// Tweening rotation
+function tweenYRotation(deltaY) {
+    var targetRotation = new THREE.Euler();
+    targetRotation.set(0, camera.rotation.y + deltaY, 0);
+
+    (function() {
+        var qSource = new THREE.Quaternion().copy(camera.quaternion);
+        var qTarget = new THREE.Quaternion().setFromEuler(targetRotation);
+        var q = new THREE.Quaternion();
+        var params = {t: 0};
+        new TWEEN.Tween(params).to({t: 1}, 300).onUpdate(function () {
+            THREE.Quaternion.slerp(qSource, qTarget, q, params.t);
+            camera.quaternion.set(q.x, q.y, q.z, q.w);
+        }).start();
+    }).call(this);
+}
+
 function animateScene() { 
-    var timer = new Date().getTime() * 0.0002;
+    var timer = new Date().getTime();
+    TWEEN.update();
     requestAnimationFrame(animateScene); 
     renderScene(); 
 } 
